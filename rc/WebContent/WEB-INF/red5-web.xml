@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xmlns:util="http://www.springframework.org/schema/util"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans 
+							http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+							http://www.springframework.org/schema/context 
+							http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+							http://www.springframework.org/schema/tx 
+							http://www.springframework.org/schema/tx/spring-tx-3.0.xsd 
+							http://www.springframework.org/schema/mvc 
+							http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd 
+							http://www.springframework.org/schema/aop 
+							http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+							http://www.springframework.org/schema/util
+							http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+	
+	<!-- Configures the annotation-driven Spring MVC Controller programming model.
+	Note that, with Spring 3.0, this tag works in Servlet MVC only!  -->
+	<mvc:annotation-driven />
+	
+	<context:annotation-config />
+	
+	<!-- Scans the classpath for annotated components that will be auto-registered as Spring beans.
+	 For example @Controller and @Service. Make sure to set the correct base-package-->
+	<context:component-scan base-package="com.radioc" />
+	
+	<tx:annotation-driven />
+	
+	<!-- the application context definition for the springapp DispatcherServlet -->
+    <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    <property name="location" value="/WEB-INF/red5-web.properties" />
+	</bean>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="i18n/message" />
+    </bean>  
+    
+    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+	    <property name="paramName" value="lang" />
+	</bean>
+ 
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+	    <property name="defaultLocale" value="fr"/>
+	</bean>
+ 
+ 	<bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	    <property name="interceptors">
+	        <ref bean="localeChangeInterceptor" />
+	    </property>
+	</bean>
+	
+	<util:properties id="props">
+		<prop key="uploadPath">media/</prop>
+	</util:properties>
+	<util:properties id="propsfile" location="/WEB-INF/red5-web.properties" />
+	<context:property-placeholder location="/WEB-INF/red5-web.properties" />
+	
+	<!--
+	Defines a properties file for dereferencing variables
+	-->
+	<!-- <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    <property name="location" value="/WEB-INF/red5-web.properties" />
+	</bean> -->
+	<context:property-placeholder location="/WEB-INF/red5-web.properties" />
+	
+	<!--
+	Defines the web context
+	-->
+	<bean id="web.context" class="org.red5.server.Context" 
+		autowire="byType">
+		<property name="scopeResolver" ref="red5.scopeResolver" />
+		<property name="serviceInvoker" ref="global.serviceInvoker" />
+	    <property name="mappingStrategy" ref="global.mappingStrategy" />
+	</bean>
+		
+	<!--
+	Defines the web scopes
+	-->
+	<bean id="web.scope" class="org.red5.server.WebScope"
+		 init-method="register">
+		<property name="server" ref="red5.server" />
+		<property name="parent" ref="global.scope" />
+		<property name="context" ref="web.context" />
+		<property name="handler" ref="web.handler" />
+		<property name="contextPath" value="${webapp.contextPath}" />
+		<property name="virtualHosts" value="${webapp.virtualHosts}" />
+	</bean>
+
+	<!--
+	Defines the web handler which acts as an applications endpoint
+	-->
+	<bean id="web.handler" class="com.radioc.Application"  scope="singleton" >
+	<!-- 	<property name="plugins">
+			<list>
+	               <bean class="org.red5.server.plugin.PluginDescriptor">
+	                    <property name="pluginName" value="authPlugin"/>
+	                    <property name="pluginType" value="org.red5.server.plugin.auth.AuthPlugin"/>
+	                    <property name="method" value="getRed5AuthenticationHandler"/>
+	                    <property name="methodReturnType" value="org.red5.server.plugin.auth.Red5AuthenticationHandler"/>
+	                </bean>
+	                 Using FMS-style authentication
+	                <bean class="org.red5.server.plugin.PluginDescriptor">
+	                    <property name="pluginName" value="authPlugin"/>
+	                    <property name="pluginType" value="org.red5.server.plugin.auth.AuthPlugin"/>
+	                    <property name="method" value="getFMSAuthenticationHandler"/>
+	                    <property name="methodReturnType" value="org.red5.server.plugin.auth.FMSAuthenticationHandler"/>
+	                </bean>
+	            </list>
+		</property>	 -->            
+	</bean>
+
+ 	<bean id="scheduler" class="org.red5.server.scheduling.ApplicationSchedulingService">
+	    <property name="applicationName" value="rc" />
+	</bean>
+ 
+ 	<!-- Data Source and Hibernate Configurations -->
+    
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" primary="true">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	    <property name="url" value="jdbc:mysql://localhost:3306/radioc" />
+	    <property name="username" value="radioc" />
+	    <property name="password" value="radioc" />
+	    <property name="initialSize" value="3" />
+	    <property name="maxActive" value="10" />
+	</bean>
+         
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="annotatedClasses">
+            <list>
+                <value>com.radioc.hbeans.User</value>
+                <value>com.radioc.hbeans.MediaItem</value>
+                <value>com.radioc.hbeans.Emission</value>
+                <value>com.radioc.hbeans.Intervenant</value>
+                <value>com.radioc.hbeans.Role</value>
+            </list>
+        </property>
+       <!--  <property name="annotatedPackages">
+            <list>
+                <value>com.radioc.hbeans</value>
+            </list>
+        </property> -->
+        <property name="entityInterceptor" >
+        	<bean class="com.radioc.interceptors.DurationInterceptor" />
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <!-- <prop key="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</prop> -->
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <!-- <prop key="hibernate.bytecode.use_reflection_optimizer">true</prop> -->
+                <!-- <prop key="hibernate.current_session_context_class">thread</prop> -->
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.search.default.directory_provider">ram</prop>
+                <prop key="hibernate.search.Emission.directory_provider">ram</prop>
+                <prop key="hibernate.search.Intervenant.directory_provider">ram</prop>
+            </props>
+        </property>
+    </bean>    
+ 
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<!-- Configure Jackson to handle json messaging -->
+	
+	<bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+		  <list>
+		    <ref bean="jacksonMessageConverter"/>
+		  </list>
+		</property>
+	</bean>
+	
+	<!-- Imports -->
+	<import resource="dispatch-servlet.xml"/>
+	<import resource="spring-security.xml"/>
+	<!-- Configure resources locations available to spring -->
+	<mvc:resources location="/css/**" mapping="/css/"/>
+	<mvc:resources location="/js/**" mapping="/js/"/>
+	<mvc:resources location="/img/**" mapping="/img/"/>
+	<mvc:resources location="/flash/**" mapping="/flash/"/>
+	<mvc:resources location="/ckfinder/**" mapping="/ckfinder/"/>
+	
+	<!-- Configure interceptors -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/rc/admin/*/index"/>
+			<mvc:mapping path="/admin/*/index"/>
+			<bean class="com.radioc.interceptors.ControllerIndexInterceptor"  />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+	  		  <property name="paramName" value="lang" ></property>
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="org.displaytag.filter.DisplayTagSpringInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
+</beans>

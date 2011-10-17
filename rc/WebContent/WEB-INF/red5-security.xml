@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" 
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="
+	    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+	    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+	    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+	
+    <!--  
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+	  <property name="configLocation" value="classpath:/ehcache-failsafe.xml"/>
+	</bean>
+	    
+	<bean id="userCacheBackend" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+	  <property name="cacheManager" ref="cacheManager"/>
+	  <property name="cacheName" value="userCache"/>
+	</bean>
+	
+	<bean id="userCache" class="org.springframework.security.providers.dao.cache.EhCacheBasedUserCache">
+	  <property name="cache" ref="userCacheBackend"/>
+	</bean>            
+    -->
+    <bean id="userCache" class="org.springframework.security.core.userdetails.cache.NullUserCache"/>
+
+    <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+    
+    <bean id="saltSource" class="org.springframework.security.authentication.dao.SystemWideSaltSource">
+        <property name="systemWideSalt">
+            <value>seKret</value>
+        </property>
+    </bean>
+    
+    <bean id="userDetailsService" class="org.springframework.security.provisioning.JdbcUserDetailsManager" depends-on="dataSource" lazy-init="true">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="enableGroups" value="false"/>
+        <property name="authenticationManager" ref="authenticationManager"/>
+        
+        <property name="usersByUsernameQuery" value="SELECT username,password,enabled FROM appuser WHERE username = ?"/>
+        <property name="authoritiesByUsernameQuery" value="SELECT username,authority FROM approle WHERE username = ?"/>
+      
+    	<property name="createAuthoritySql" value="INSERT INTO approle (username, authority) VALUES (?, ?)"/>
+    	<property name="createUserSql" value="INSERT INTO appuser (username, password, enabled) VALUES (?, ?, ?)"/>
+    	<property name="deleteUserSql" value="DELETE FROM appuser,approle WHERE username = ?"/>
+ 		<property name="updateUserSql" value="UPDATE appuser SET password = ?, enabled = ? WHERE username = ?"/>
+    	<property name="userExistsSql" value="SELECT username FROM appuser WHERE username = ?"/>
+    	<property name="changePasswordSql" value="UPDATE appuser SET password = ? WHERE username = ?"/>
+    </bean>
+        
+    <bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider" depends-on="userDetailsService">
+        <property name="userDetailsService" ref="userDetailsService"/>
+        <property name="saltSource" ref="saltSource"/>
+        <property name="passwordEncoder" ref="passwordEncoder"/>
+        <property name="userCache" ref="userCache"/>
+    </bean>
+
+    <bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
+        <property name="providers">
+            <list>
+                <ref local="daoAuthenticationProvider"/>
+            </list>
+        </property>
+    </bean>
+    <!-- Streaming Security -->
+    <bean id="hostPlaybackSecurity" class="com.radioc.streams.security.HostPlaybackSecurity" init-method="init">
+    	<property name="htmlDomains" value="htmlDomainsSecurity" />
+    	<property name="swfDomains" value="swfDomainsSecurity" />
+    </bean>
+    
+    <bean id="hostPublishSecurity" class="com.radioc.streams.security.HostPublishSecurity" init-method="init">
+    	<property name="publishNames" value="publishDomainsSecurity" />
+    	<property name="enablePublish" value="false" />
+    </bean>
+    
+    <bean id="sharedObjectSecurity" class="com.radioc.streams.security.SharedObjectSecurity" init-method="init">
+    	<property name="sharedObjectNames" value="sharedObjectDomainsSecurity" />
+    	<property name="enableSharedObjects" value="true" />
+    	<property name="connectionAllowed" value="true" />
+    	<property name="creationAllowed" value="true" />
+    	<property name="deleteAllowed" value="true" />
+    	<property name="sendAllowed" value="true" />
+    	<property name="writeAllowed" value="true" />
+    </bean>
+    
+</beans>

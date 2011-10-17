@@ -1,0 +1,16 @@
+.flags {
+    font-size: 1px;
+    width: 30px
+}
+.flags a {
+	color: #333;
+    padding: 4px 6px;
+}
+.flags a.french {
+	background: url(images/16/fr.png) center no-repeat;	
+	width: 16px;
+}
+.flags a.english {
+	background: url(images/16/uk.png) center no-repeat;
+	width: 16px;
+}

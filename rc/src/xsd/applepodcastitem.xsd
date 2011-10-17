@@ -1,0 +1,22 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="rss" targetNamespace="http://www.itunes.com/dtds/podcast-1.0.dtd" 
+					xmlns="http://www.itunes.com/dtds/podcast-1.0.dtd" 
+					xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+					attributeFormDefault="qualified" 
+					elementFormDefault="qualified" 
+					xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" >
+   <xs:element name="author"  type="xs:string"/>
+   <xs:element name="block"  type="xs:string" />
+   <xs:element name="category"  type="xs:string" />
+   <xs:element name="image"  type="xs:string" />
+   <xs:element name="duration"  type="xs:string" />
+   <xs:element name="explicit"  type="xs:string" />
+   <xs:element name="isClosedCaptioned"  type="xs:string" />
+   <xs:element name="order"  type="xs:string" />
+   <xs:element name="complete"  type="xs:string" />
+   <xs:element name="keywords"  type="xs:string" />
+   <xs:element name="new-feed-url"  type="xs:string" />
+   <xs:element name="owner"  type="xs:string" />
+   <xs:element name="subtitle"  type="xs:string"/>
+   <xs:element name="summary"  type="xs:string"/>
+</xs:schema>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" 
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xsi:schemaLocation="
+	    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+	    
+	<sec:global-method-security secured-annotations="enabled" jsr250-annotations="enabled" pre-post-annotations="enabled">
+		<sec:expression-handler ref="expressionHandler"/>
+	</sec:global-method-security>
+	
+	
+	<bean id="expressionHandler"
+      class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+        <property name="permissionEvaluator" ref="myPermissionEvaluator"/>
+    </bean>
+    
+    <bean id="myPermissionEvaluator" class="com.radioc.validators.RCPermissionEvaluator" />
+  
+	<sec:http auto-config="false" use-expressions="true" access-denied-page="/rc/login/denied" ><!-- entry-point-ref="authenticationEntryPoint" -->
+	  	<sec:intercept-url pattern="/rc/login/**" access="permitAll" />
+	  	<sec:intercept-url pattern="/rc/register/**" access="permitAll" />
+		<!-- <sec:intercept-url pattern="/rc/admin/**" access="hasRole('ROLE_SUPERVISOR')"/> -->
+		<sec:intercept-url pattern="/rc/admin/**" access="permitAll"/>
+		<sec:intercept-url pattern="/rc/**" access="permitAll"/>
+		<sec:intercept-url pattern="/**" access="permitAll"/>
+		<sec:form-login  login-page="/rc/login" authentication-failure-url="/rc/login?error=true" default-target-url="/rc/main/index" />
+		<sec:logout invalidate-session="true" logout-success-url="/rc/login" logout-url="/rc/logout"/>
+		
+		<!-- 
+			Querying the SessionRegistry for currently authenticated users and their sessions
+			http://static.springsource.org/spring-security/site/docs/3.1.x/reference/session-mgmt.html#list-authenticated-principals 
+		-->
+		<!-- <sec:custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER"/> -->
+		<sec:custom-filter ref="concurrencyFilter" position="CONCURRENT_SESSION_FILTER"/>
+		<!-- <sec:custom-filter ref="singleEntryFilter" after="CONCURRENT_SESSION_FILTER"/> -->
+		<sec:session-management session-authentication-strategy-ref="sas"/>
+    </sec:http>
+    
+   <!--  <bean id="singleEntryFilter" class="org.krams.tutorial.filter.SingleEntryFilter" 
+ 			p:redirectURI="/rc/login-alert">
+ 			<property name="guardURI">
+ 				<list>
+ 					<value>/spring-security-single-login-filter/rc/index</value>
+ 				</list>
+ 			</property>
+ 	</bean> -->
+	<bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter"
+	    p:sessionAuthenticationStrategy-ref="sas"
+	    p:authenticationManager-ref="authenticationManager" 
+  		p:authenticationFailureHandler-ref="customAuthenticationFailureHandler"
+  		p:authenticationSuccessHandler-ref="customAuthenticationSuccessHandler"/>
+    
+    <!-- We just actually need to set the default failure url here -->
+ 	<bean id="customAuthenticationFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"
+ 		p:defaultFailureUrl="/rc/login?error=true" />
+    
+    <!-- We just actually need to set the default target url here -->
+ 	<bean id="customAuthenticationSuccessHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler"
+ 		p:defaultTargetUrl="/rc/main/index" />
+    
+    <!-- The AuthenticationEntryPoint is responsible for redirecting the user to a particular page, like a login page,
+ 			whenever the server sends back a response requiring authentication -->
+ 	<!-- See Spring-Security Reference 5.4.1 for more info -->
+ 	<bean id="authenticationEntryPoint"  class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint"
+	 	p:loginFormUrl="/rc/login"/>
+	 	
+    <sec:authentication-manager alias="authenticationManager">
+    	<sec:authentication-provider ref="daoAuthenticationProvider" />
+    </sec:authentication-manager>
+    
+    <!-- Filter required by concurrent session handling package 
+			The ConcurrentSessionFilter requires two properties, sessionRegistry, which generally points to an 
+			instance of SessionRegistryImpl, and expiredUrl, which points to the page to display when a session has expired.
+			See: http://static.springsource.org/spring-security/site/docs/3.1.x/reference/session-mgmt.html#list-authenticated-principals -->
+	<bean id="concurrencyFilter" class="org.springframework.security.web.session.ConcurrentSessionFilter"
+		  	p:sessionRegistry-ref="sessionRegistry" 
+		  	p:expiredUrl="/rc/session-expired" />
+	
+	<!--  Defines a concrete concurrent control strategy 
+			 Checks whether the user in question should be allowed to proceed, by comparing the number of 
+			 sessions they already have active with the configured maximumSessions value. The SessionRegistry 
+			 is used as the source of data on authenticated users and session data.
+			 See: http://static.springsource.org/spring-security/site/docs/3.0.x/apidocs/org/springframework/security/web/authentication/session/ConcurrentSessionControlStrategy.html-->
+	<bean id="sas" class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy"
+	 		p:maximumSessions="1" >
+	 		<constructor-arg name="sessionRegistry" ref="sessionRegistry" />
+	</bean>
+
+	<!-- Maintains a registry of SessionInformation instances
+		   See: http://static.springsource.org/spring-security/site/docs/3.0.x/apidocs/org/springframework/security/core/session/SessionRegistry.html -->
+	<bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />	
+	
+</beans>
