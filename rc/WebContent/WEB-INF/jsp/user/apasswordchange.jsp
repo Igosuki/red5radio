@@ -20,7 +20,7 @@
             <c:if test="${errormess != null}">
             <div class="message"><spring:message code="${errormess}" /></div>
             </c:if>
-            <c:url value='/rc/admin/user/pwdsave' var="actionUrl" />
+            <c:url value='/api/admin/user/pwdsave' var="actionUrl" />
             <spring-form:form action="${actionUrl}" modelAttribute="userform">
                 <div class="dialog">
                 	<spring-form:errors element="div" cssClass="errors" path="*" />

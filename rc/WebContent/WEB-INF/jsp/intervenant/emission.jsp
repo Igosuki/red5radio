@@ -25,7 +25,7 @@
 </table>
 <script type="text/javascript">
 	$(document).ready(function(){
-		loadUrlInTable ("<c:url value='/rc/admin/intervenant/delEm/' />", "#emissionTable", '#loadEm');
+		loadUrlInTable ("<c:url value='/api/admin/intervenant/delEm/' />", "#emissionTable", '#loadEm');
 	});
 </script>
 

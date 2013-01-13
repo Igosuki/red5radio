@@ -1,3 +1,9 @@
 Manifest-Version: 1.0
-Class-Path: 
-
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Build-Jdk: 1.6.0_25
+Implementation-Title: Radio Webapp for Red5 - Web Application
+Implementation-Version: 2.1
+Implementation-Vendor-Id: com.gepsensradio
+Implementation-Vendor: Gepsens - Guillaume Balaine
+Built-By: Gepsens - Guillaume Balaine

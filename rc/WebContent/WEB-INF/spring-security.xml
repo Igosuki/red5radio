@@ -5,10 +5,10 @@
        xmlns:sec="http://www.springframework.org/schema/security"
        xmlns:p="http://www.springframework.org/schema/p" 
        xsi:schemaLocation="
-	    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-	    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
-	    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+	    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+	    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+	    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 	    
 	<sec:global-method-security secured-annotations="enabled" jsr250-annotations="enabled" pre-post-annotations="enabled">
 		<sec:expression-handler ref="expressionHandler"/>
@@ -20,17 +20,17 @@
         <property name="permissionEvaluator" ref="myPermissionEvaluator"/>
     </bean>
     
-    <bean id="myPermissionEvaluator" class="com.radioc.validators.RCPermissionEvaluator" />
+    <bean id="myPermissionEvaluator" class="com.gepsensradio.validators.RCPermissionEvaluator" />
   
-	<sec:http auto-config="false" use-expressions="true" access-denied-page="/rc/login/denied" ><!-- entry-point-ref="authenticationEntryPoint" -->
-	  	<sec:intercept-url pattern="/rc/login/**" access="permitAll" />
-	  	<sec:intercept-url pattern="/rc/register/**" access="permitAll" />
-		<!-- <sec:intercept-url pattern="/rc/admin/**" access="hasRole('ROLE_SUPERVISOR')"/> -->
-		<sec:intercept-url pattern="/rc/admin/**" access="permitAll"/>
-		<sec:intercept-url pattern="/rc/**" access="permitAll"/>
+	<sec:http auto-config="false" use-expressions="true" access-denied-page="/api/login/denied" ><!-- entry-point-ref="authenticationEntryPoint" -->
+	  	<sec:intercept-url pattern="/api/login/**" access="permitAll" />
+	  	<sec:intercept-url pattern="/api/register/**" access="permitAll" />
+		<!-- <sec:intercept-url pattern="/api/admin/**" access="hasRole('ROLE_SUPERVISOR')"/> -->
+		<sec:intercept-url pattern="/api/admin/**" access="permitAll"/>
+		<sec:intercept-url pattern="/api/**" access="permitAll"/>
 		<sec:intercept-url pattern="/**" access="permitAll"/>
-		<sec:form-login  login-page="/rc/login" authentication-failure-url="/rc/login?error=true" default-target-url="/rc/main/index" />
-		<sec:logout invalidate-session="true" logout-success-url="/rc/login" logout-url="/rc/logout"/>
+		<sec:form-login  login-page="/api/login" authentication-failure-url="/api/login?error=true" default-target-url="/api/main/index" />
+		<sec:logout invalidate-session="true" logout-success-url="/api/login" logout-url="/api/logout"/>
 		
 		<!-- 
 			Querying the SessionRegistry for currently authenticated users and their sessions
@@ -43,10 +43,10 @@
     </sec:http>
     
    <!--  <bean id="singleEntryFilter" class="org.krams.tutorial.filter.SingleEntryFilter" 
- 			p:redirectURI="/rc/login-alert">
+ 			p:redirectURI="/api/login-alert">
  			<property name="guardURI">
  				<list>
- 					<value>/spring-security-single-login-filter/rc/index</value>
+ 					<value>/spring-security-single-login-filter/api/index</value>
  				</list>
  			</property>
  	</bean> -->
@@ -58,17 +58,17 @@
     
     <!-- We just actually need to set the default failure url here -->
  	<bean id="customAuthenticationFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"
- 		p:defaultFailureUrl="/rc/login?error=true" />
+ 		p:defaultFailureUrl="/api/login?error=true" />
     
     <!-- We just actually need to set the default target url here -->
  	<bean id="customAuthenticationSuccessHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler"
- 		p:defaultTargetUrl="/rc/main/index" />
+ 		p:defaultTargetUrl="/api/main/index" />
     
     <!-- The AuthenticationEntryPoint is responsible for redirecting the user to a particular page, like a login page,
  			whenever the server sends back a response requiring authentication -->
  	<!-- See Spring-Security Reference 5.4.1 for more info -->
  	<bean id="authenticationEntryPoint"  class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint"
-	 	p:loginFormUrl="/rc/login"/>
+	 	p:loginFormUrl="/api/login"/>
 	 	
     <sec:authentication-manager alias="authenticationManager">
     	<sec:authentication-provider ref="daoAuthenticationProvider" />
@@ -80,7 +80,7 @@
 			See: http://static.springsource.org/spring-security/site/docs/3.1.x/reference/session-mgmt.html#list-authenticated-principals -->
 	<bean id="concurrencyFilter" class="org.springframework.security.web.session.ConcurrentSessionFilter"
 		  	p:sessionRegistry-ref="sessionRegistry" 
-		  	p:expiredUrl="/rc/session-expired" />
+		  	p:expiredUrl="/api/session-expired" />
 	
 	<!--  Defines a concrete concurrent control strategy 
 			 Checks whether the user in question should be allowed to proceed, by comparing the number of 

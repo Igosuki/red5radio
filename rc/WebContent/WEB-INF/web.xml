@@ -8,7 +8,7 @@
 	<display-name>rc</display-name>
 
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>/api/main/index</welcome-file>
 	</welcome-file-list>
 
 
@@ -19,16 +19,19 @@
 		<param-value>/rc</param-value>
 	</context-param>
 
+	<!--  Logging Listener -->
 	<listener>
 		<listener-class>org.red5.logging.ContextLoggingListener
 		</listener-class>
 	</listener>
 
+	<!-- Spring Listeners -->
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener
 		</listener-class>
 	</listener> 
 
+	<!-- Logging filter -->
 	<filter>
 		<filter-name>LoggerContextFilter</filter-name>
 		<filter-class>org.red5.logging.LoggerContextFilter</filter-class>
@@ -39,6 +42,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!-- Display Tag filter -->
 	<filter>
 		<filter-name>ResponseOverrideFilter</filter-name>
 		<filter-class>org.displaytag.filter.ResponseOverrideFilter
@@ -50,6 +54,7 @@
 		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
 
+	<!-- Spring Security filter -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
@@ -61,6 +66,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!-- Sitemesh Filter -->
 	<filter>
 		<filter-name>sitemesh</filter-name>
 		<filter-class>com.opensymphony.module.sitemesh.filter.PageFilter
@@ -72,6 +78,27 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!-- CkFinder File upload filter -->
+	<filter>
+		<filter-name>FileUploadFilter</filter-name>
+		<filter-class>com.ckfinder.connector.FileUploadFilter</filter-class>
+                <init-param>
+                    <param-name>sessionCookieName</param-name>
+                    <param-value>JSESSIONID</param-value>
+                </init-param>
+                <init-param>
+                    <param-name>sessionParameterName</param-name>
+                    <param-value>jsessionid</param-value>
+                </init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>FileUploadFilter</filter-name>
+		<url-pattern>
+			/ckfinder/core/connector/java/connector.java
+     	 </url-pattern>
+	</filter-mapping>
+	
+	<!-- Spring Dispatcher servlet -->
 	<servlet>
 		<servlet-name>dispatch</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet
@@ -81,9 +108,10 @@
 
 	<servlet-mapping>
 		<servlet-name>dispatch</servlet-name>
-		<url-pattern>/rc/*</url-pattern>
+		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
 
+	<!-- CkFinder Servlet -->
 	<servlet>
 		<servlet-name>ConnectorServlet</servlet-name>
 		<servlet-class>com.ckfinder.connector.ConnectorServlet</servlet-class>
@@ -95,6 +123,10 @@
 			<param-name>debug</param-name>
 			<param-value>false</param-value>
 		</init-param>
+		<init-param>
+			<param-name>configuration</param-name>
+			<param-value>com.gepsensradio.ckfinder.CkFinderConfig</param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
@@ -104,6 +136,8 @@
 		</url-pattern>
 	</servlet-mapping>
 
+
+	<!-- Rtmp Servlet -->
 	<servlet>
 		<servlet-name>rtmpt</servlet-name>
 		<servlet-class>org.red5.server.net.rtmpt.RTMPTServlet</servlet-class>
@@ -136,12 +170,14 @@
 		<url-pattern>/idle/*</url-pattern>
 	</servlet-mapping>
 
+
+	<!-- Jersey Spring Resource Servlet -->
 	<servlet>
 		<servlet-name>jerseyservlet</servlet-name>
 		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>com.radioc.ws</param-value>
+			<param-value>com.gepsensradio.ws</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -168,6 +204,7 @@
 		<url-pattern>/streams/*</url-pattern> </web-resource-collection> <auth-constraint 
 		/> </security-constraint> -->
 
+	<!-- Tags -->
 	<jsp-config>
 		<taglib>
 			<taglib-uri>/spring</taglib-uri>
@@ -181,20 +218,34 @@
 			<taglib-uri>/ckfinder</taglib-uri>
 			<taglib-location>/WEB-INF/tld/ckfinder.tld</taglib-location>
 		</taglib>
+		<taglib>
+			<taglib-uri>/paging</taglib-uri>
+			<taglib-uri>/WEB-INF/tld/paging.tld</taglib-uri>
+		</taglib>
+		<taglib>
+			<taglib-uri>/strings</taglib-uri>
+			<taglib-uri>/WEB-INF/tld/strings.tld</taglib-uri>
+		</taglib>
 	</jsp-config>
 
+	<!-- Errors -->
 	<error-page>
 		<error-code>404</error-code>
-		<location>/rc/main/nf</location>
+		<location>/api/main/nf</location>
 	</error-page>
 
 	<error-page>
 		<error-code>505</error-code>
-		<location>/rc/main/error</location>
+		<location>/api/main/error</location>
 	</error-page>
 
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
-		<location>/rc/main/exc</location>
+		<location>/api/main/exc</location>
 	</error-page>
+	
+	<!-- Session control -->
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
 </web-app>

@@ -2,7 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="/spring" %>
 <%@ taglib prefix="spring-form" uri="/spring-form" %>
-<%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions' %>
+<%@ taglib prefix='fn' uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
     <head>
         <title><spring:message code="emission.show.title" /></title>
@@ -16,7 +16,7 @@
     </head>
     <body>
         <div class="body">
-            <h1><spring:message code="default.show.label" arguments="une émission" /></h1>
+            <h1><spring:message code="default.show.label" arguments="une ï¿½mission" /></h1>
             <c:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </c:if>
@@ -120,7 +120,7 @@
                 </table>
             </div>
             <div class="buttons">
-            	<c:url value="/rc/admin/emission/index" var="actionUrl"/>
+            	<c:url value="/api/admin/emission/index" var="actionUrl"/>
                 <spring-form:form action="${actionUrl}" method="post" modelAttribute="emission">
                 	<spring-form:hidden path="id"/>
                     <span class="button"><input type="submit" name="edit" class="edit" value='<spring:message code="default.button.edit.label" />' /></span>
@@ -142,7 +142,7 @@
 	    				plugins: {
 	    					rtmp: {
 	    						url: "<c:url value='/flash/flowplayer.rtmp-3.2.3.swf' />",
-	    					   	netConnectionUrl: 'rtmp://localhost/rc/',
+	    					   	netConnectionUrl: 'rtmp://localhost/api/',
 	    						
 	    					   	// make the rtmp plugin query the stream length from the server
 	    					   	durationFunc: 'getStreamLength'

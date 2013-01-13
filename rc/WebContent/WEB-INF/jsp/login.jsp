@@ -73,7 +73,7 @@ background-color: rgb(250, 250, 250);
 
             </tr>
             <tr>
-              <c:url var="registerUrl" value="/rc/register/" />
+              <c:url var="registerUrl" value="/api/register/" />
               <td><a href="${registerUrl}">S'enregistrer</a></td>
             </tr>
           </tbody>

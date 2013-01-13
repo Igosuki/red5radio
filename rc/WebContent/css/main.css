@@ -1,21 +1,65 @@
-html * {
-    margin: 0;
-    /*padding: 0; SELECT NOT DISPLAYED CORRECTLY IN FIREFOX */
+/* FONT STACK */
+body,
+input, select, textarea {
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
-/* GENERAL */
+/* BASE LAYOUT */
 
-.spinner {
-    padding: 5px;
-    position: absolute;
-    right: 0;
+html {
+	background-color: #ddd;
+	background-image: -moz-linear-gradient(center top, #aaa, #ddd);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #aaa), color-stop(1, #ddd));
+	background-image: linear-gradient(top, #aaa, #ddd);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr = '#aaaaaa', EndColorStr = '#dddddd');
+	background-repeat: no-repeat;
+	height: 100%;
+	/* change the box model to exclude the padding from the calculation of 100% height (IE8+) */
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+html.no-cssgradients {
+	background-color: #aaa;
+}
+
+.ie6 html {
+	height: 100%;
+}
+
+html * {
+	margin: 0;
 }
 
 body {
-    background: #fff;
-    color: #333;
-    font: 11px verdana, arial, helvetica, sans-serif;
+	background: #ffffff;
+	color: #333333;
+	margin: 0 auto;
+	max-width: 1500px;
+	min-width: 800px;
+	min-height: 2000px;
+	max-height: 3200px;
+	overflow-x: hidden; /* prevents box-shadow causing a horizontal scrollbar in firefox when viewport < 960px wide */
+	   -moz-box-shadow: 0 0 0.3em #255b17;
+	-webkit-box-shadow: 0 0 0.3em #255b17;
+	        box-shadow: 0 0 0.3em #255b17;
+    font-size: 0.8em;
 }
+
+.pagedListTable {
+	width : 100%;
+}
+.footer {
+	/* background: #abbf78; */
+	color: #000;
+	clear: both;
+	font-size: 0.8em;
+	margin-top: 1.5em;
+	padding: 1em;
+	min-height: 1em;
+}
+
 #grailsLogo {
 	padding:20px;
 }
@@ -219,9 +263,9 @@ th {
     padding: 2px 6px;
 }
 th a:link, th a:visited, th a:hover {
-    color: #333;
+    color: #666;
     display: block;
-    font-size: 10px;
+    font-size: 11px;
     text-decoration: none;
     width: 100%;
 }
@@ -355,4 +399,44 @@ th.desc a {
 .buttons a.save {
     background: transparent url(images/skin/database_save.png) 5px 50% no-repeat;
     padding-left: 28px;
+}
+.smallfont {
+	font: 11px verdana, arial, helvetica, sans-serif;
+    line-height: 12px;
+    padding: 5px 6px;
+    text-align: left;
+    vertical-align: top;
+}
+
+input.longfield {
+	width: 600px;
+}
+
+td.checked {
+	background: url(../img/tick.png) center no-repeat;
+}
+
+td.checkedblue {
+	background: url(../img/tickblue.png) center no-repeat;
+}
+
+td.unchecked{
+	background: url(../img/wrong.png) center no-repeat;
+}
+
+div.trashbox {
+	
+}
+
+div.bodyfiller {
+	width: 80%;
+}
+
+ul.draggable-list {
+	list-style-type : none;
+	padding-left: 0;
+}
+
+ul.draggable-list li {
+	min-height: 20px;
 }

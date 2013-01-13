@@ -58,7 +58,7 @@
       ${fn:escapeXml(param:info)}
     </example>
   </function>
-
+	
   <function>
     <description>
       Returns the index withing a string of the first occurrence of a specified substring.

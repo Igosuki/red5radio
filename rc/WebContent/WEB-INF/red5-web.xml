@@ -25,7 +25,7 @@
 	
 	<!-- Scans the classpath for annotated components that will be auto-registered as Spring beans.
 	 For example @Controller and @Service. Make sure to set the correct base-package-->
-	<context:component-scan base-package="com.radioc" />
+	<context:component-scan base-package="com.gepsensradio" />
 	
 	<tx:annotation-driven />
 	
@@ -92,7 +92,7 @@
 	<!--
 	Defines the web handler which acts as an applications endpoint
 	-->
-	<bean id="web.handler" class="com.radioc.Application"  scope="singleton" >
+	<bean id="web.handler" class="com.gepsensradio.Application"  scope="singleton" >
 	<!-- 	<property name="plugins">
 			<list>
 	               <bean class="org.red5.server.plugin.PluginDescriptor">
@@ -120,52 +120,97 @@
     
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" primary="true">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-	    <property name="url" value="jdbc:mysql://localhost:3306/radioc" />
-	    <property name="username" value="radioc" />
-	    <property name="password" value="radioc" />
+	    <property name="url" value="${datasource.url}" />
+	    <property name="username" value="${datasource.login}" />
+	    <property name="password" value="${datasource.pwd}" />
+	    <property name="initialSize" value="3" />
+	    <property name="maxActive" value="10" />
+	</bean>
+	
+	<bean id="dataSource2" class="org.apache.commons.dbcp.BasicDataSource" primary="true">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	    <property name="url" value="${datasource2.url}" />
+	    <property name="username" value="${datasource2.login}" />
+	    <property name="password" value="${datasource2.pwd}" />
 	    <property name="initialSize" value="3" />
 	    <property name="maxActive" value="10" />
 	</bean>
          
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
+        
         <property name="annotatedClasses">
             <list>
-                <value>com.radioc.hbeans.User</value>
-                <value>com.radioc.hbeans.MediaItem</value>
-                <value>com.radioc.hbeans.Emission</value>
-                <value>com.radioc.hbeans.Intervenant</value>
-                <value>com.radioc.hbeans.Role</value>
+                <value>com.gepsensradio.hbeans.User</value>
+                <value>com.gepsensradio.hbeans.MediaItem</value>
+                <value>com.gepsensradio.hbeans.Emission</value>
+                <value>com.gepsensradio.hbeans.Intervenant</value>
+                <value>com.gepsensradio.hbeans.Role</value>
+                <value>com.gepsensradio.hbeans.Playlist</value>
+                <value>com.gepsensradio.hbeans.PlayListLink</value>
+                <value>com.gepsensradio.hbeans.AppParameter</value>
             </list>
         </property>
        <!--  <property name="annotatedPackages">
             <list>
-                <value>com.radioc.hbeans</value>
+                <value>com.gepsensradiosradio.hbeans</value>
             </list>
         </property> -->
         <property name="entityInterceptor" >
-        	<bean class="com.radioc.interceptors.DurationInterceptor" />
+        	<bean class="com.gepsensradio.interceptors.DurationInterceptor" />
         </property>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
-                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.show_sql">false</prop>
                 <prop key="hibernate.format_sql">true</prop>
                 <!-- <prop key="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</prop> -->
                 <prop key="hibernate.cache.use_query_cache">true</prop>
                 <!-- <prop key="hibernate.bytecode.use_reflection_optimizer">true</prop> -->
                 <!-- <prop key="hibernate.current_session_context_class">thread</prop> -->
-                <prop key="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</prop>
+                <!-- <prop key="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</prop> -->
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.search.default.directory_provider">ram</prop>
                 <prop key="hibernate.search.Emission.directory_provider">ram</prop>
                 <prop key="hibernate.search.Intervenant.directory_provider">ram</prop>
+                <prop key="hibernate.search.User.directory_provider">ram</prop>
+                <prop key="hibernate.search.MediaItem.directory_provider">ram</prop>
+                <prop key="hibernate.search.Playlist.directory_provider">ram</prop>
+            </props>
+        </property>
+    </bean>  
+    
+    <bean id="sessionFactory2" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource2" />
+        <!-- <property name="annotatedClasses">
+            <list>
+                <value>com.gepsensradiosradio.hbeans.PlayListLink</value>
+            </list>
+        </property> -->
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+                <!-- <prop key="hibernate.show_sql">true</prop> -->
+                <prop key="hibernate.format_sql">true</prop>
+                <!-- <prop key="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</prop> -->
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <!-- <prop key="hibernate.bytecode.use_reflection_optimizer">true</prop> -->
+                <!-- <prop key="hibernate.current_session_context_class">thread</prop> -->
+                <!-- <prop key="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</prop> -->
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.search.default.directory_provider">ram</prop>
             </props>
         </property>
     </bean>    
  
-    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
     	<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="transactionManager2" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    	<property name="sessionFactory" ref="sessionFactory2"/>
 	</bean>
 	
 	<!-- Configure Jackson to handle json messaging -->
@@ -194,9 +239,9 @@
 	<!-- Configure interceptors -->
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/rc/admin/*/index"/>
+			<mvc:mapping path="/api/admin/*/index"/>
 			<mvc:mapping path="/admin/*/index"/>
-			<bean class="com.radioc.interceptors.ControllerIndexInterceptor"  />
+			<bean class="com.gepsensradio.interceptors.ControllerIndexInterceptor"  />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
@@ -209,6 +254,7 @@
 			<bean class="org.displaytag.filter.DisplayTagSpringInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-	
-	
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
 </beans>

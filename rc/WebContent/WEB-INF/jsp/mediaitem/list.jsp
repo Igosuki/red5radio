@@ -1,70 +1,49 @@
+<%@page import="com.gepsensradio.utils.Utils"%>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="/spring" %>
+<%@ taglib prefix="spring-form" uri="/spring-form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head>
         <title><spring:message code="mediaitem.list.title" /></title>
         <link rel="stylesheet" href="<c:url value='/css/displaytag.css' />" />
         <link rel="stylesheet" href="<c:url value='/css/ui-lightness/jquery-ui-btnautocsort.css' />" />
         <script type="text/javascript" src="<c:url value="/js/jquery-ui-btnautocsort.js" />" ></script>
+        <link rel="stylesheet" href="<c:url value='/css/search.css' />" />
     </head>
     <body>
-        <div class="body">
-            <h1><spring:message code="mediaitem.list.title" /></h1>
+        <div class="body" style="width: 95%;">
+        	<div>
+            	<h1><spring:message code="mediaitem.list.title" /></h1>
+            	<br/>
+            	<spring-form:form  cssClass="searchform" commandName="term" cssStyle="padding-left: 10px; " action="search" method="GET">
+					<input name="term" style="input:hover { background: #b2d1ff;}" class="searchfield" type="text" value="Rechercher..." onfocus="if (this.value == 'Rechercher...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Rechercher...';}">
+					<input class="searchclass" type="submit" value="Chercher" />
+				</spring-form:form>
+			</div>
             <c:if test="${errormess}">
             <div class="message">${errormess}</div>
             </c:if>
             <div class="list">
-            	<c:url value="/rc/admin/media/list" var="actionList"/>
-            	<c:url value="/rc/admin/media/edit/" var="actionEdit"/>
-            	<c:url value="/rc/admin/media/show/" var="actionShow"/>
+            	<jsp:include page="../paging.jsp" />
             	<c:choose>
 	            	<c:when test="${paging == true}" >
-		                <display:table requestURIcontext="false" requestURI="${actionList}"  
-		                				id="interv" name="pagedList"  decorator="com.radioc.display.deco.MediaItemDecorator" 
-		                				size="${pagedList.fullListSize}" list="pagedList" pagesize="${pagedList.objectsPerPage}"
-		                				sort="page" partialList="true">
-		                	<display:column style="width: 10%;">
-		                		<a class="edit" href="${actionEdit}${interv.id}">${default.button.edit.label}</a>
-		                		<a class="show" href="${actionShow}${interv.id}">${default.button.edit.label}</a>
-		                	</display:column>
-		                	<display:column headerClass="sortable" sortable="true" property="title" titleKey="mediaitem.title.label" />
-		                	<display:column property="subtitle" titleKey="mediaitem.subtitle.label" />
-		                	<display:column headerClass="sortable"  sortable="true" property="type" titleKey="mediaitem.type.label" />
-		                	<display:column headerClass="sortable" sortable="true" property="pubDate" titleKey="mediaitem.pubdate.label" />
-		                	<display:column property="emission" titleKey="mediaitem.emission.label" />
-		                </display:table>
+	            		<jsp:include page="table.jsp" />
 		            </c:when>
 		            <c:otherwise>
-		            	<display:table id="interv" name="list"  decorator="com.radioc.display.deco.MediaItemDecorator" 
-		            					defaultsort="1" defaultorder="ascending" sort="page">
-		                	<display:column style="width: 10%;">
-		                		<a class="edit" href="${actionEdit}${interv.id}">${default.button.edit.label}</a>
-		                		<a class="show" href="${actionShow}${interv.id}">${default.button.edit.label}</a>
-		                	</display:column>
-		                	<display:column headerClass="sortable" sortable="true" property="title" titleKey="mediaitem.title.label" />
-		                	<display:column property="subtitle" titleKey="mediaitem.subtitle.label" />
-		                	<display:column headerClass="sortable"  sortable="true" property="type" titleKey="mediaitem.type.label" />
-		                	<display:column headerClass="sortable" sortable="true" property="pubDate" titleKey="mediaitem.pubdate.label" />
-		                	<display:column property="emission" titleKey="mediaitem.emission.label" />
-		                </display:table>
+		            	<jsp:include page="table.jsp" />
 		            </c:otherwise>
 	            </c:choose>
             </div>
         </div>
          <script type="text/javascript">
-        	$(function() {
-        		$("a.edit").button({
-        			icons: {
-        				primary: "ui-icon-wrench"
-        			},
-        			text: false
-        		});
-        		$("a.show").button({
+        	$(document).ready(function() {
+        		$(".searchclass").button({
         			icons: {
         				primary: "ui-icon-search"
         			},
-        			text: false
+        			text: true
         		});
         	});
         </script>

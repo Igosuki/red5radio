@@ -8,7 +8,7 @@
 	</head>
 	<body>
 	 <div class="body">
-            <h1>Radio Courtoisie - Administration Red 5</h1>
+            <h1>Radio Server Administration</h1>
             <div class="list" id="displayList">
         		
                 <%-- <table>

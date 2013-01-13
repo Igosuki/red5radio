@@ -20,7 +20,7 @@
 	<root>
 		<appender-ref ref="OFLA" />
 	</root>	
-	<logger name="com.radioc">
+	<logger name="com.gepsensradio">
 		<level value="DEBUG" />
 	</logger>		
 </configuration>

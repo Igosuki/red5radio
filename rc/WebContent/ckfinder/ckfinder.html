@@ -3,6 +3,7 @@
 <head>
 	<title>CKFinder 2</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="robots" content="noindex, nofollow" />
 	<script type="text/javascript" src="ckfinder.js"></script>
 	<style type="text/css">
 		body, html, iframe, #ckfinder {
@@ -14,6 +15,8 @@
 			overflow: hidden;
 		}
 	</style>
+	<script type="text/javascript" src="jquery-1.7.1.js">
+	</script>
 </head>
 <body>
 	<div id="ckfinder"></div>
@@ -37,7 +40,7 @@
 		if ( tmp = get( 'basePath' ) )
 			CKFINDER.basePath = tmp;
 
-		if ( tmp = get( 'startupPath' ) )
+		if ( tmp = get( 'startupPath' ) || get( 'start' ) )
 			config.startupPath = decodeURIComponent( tmp );
 
 		config.id = get( 'id' ) || '';

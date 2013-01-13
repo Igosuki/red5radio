@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
 		   xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+		   xmlns:jwplayer="http://developer.longtailvideo.com"
            elementFormDefault="unqualified" 
            version="2.0.2.16">
 <xs:import namespace="http://www.itunes.com/dtds/podcast-1.0.dtd" schemaLocation="applepodcastitem.xsd" />
+<xs:import namespace="http://developer.longtailvideo.com" schemaLocation="jwplayer.xsd" />
   <xs:annotation>
     <xs:documentation>XML Schema for RSS v2.0 feed files.</xs:documentation>
-    <xs:documentation>Project home: http://www.codeplex.com/rss2schema/ </xs:documentation>
+    <xs:documentation>RSS Project home: http://www.codeplex.com/rss2schema/ </xs:documentation>
     <xs:documentation>Based on the RSS 2.0 specification document at http://cyber.law.harvard.edu/rss/rss.html </xs:documentation>
-    <xs:documentation>Author: Jorgen Thelin</xs:documentation>
+    <xs:documentation>Author: Guillaume Balaine (RSS part : Jorgen Thelin)</xs:documentation>
     <xs:documentation>Revision: 16</xs:documentation>
-    <xs:documentation>Date: 01-Nov-2008</xs:documentation>
-    <xs:documentation>Feedback to: http://www.codeplex.com/rss2schema/WorkItem/List.aspx </xs:documentation>
+    <xs:documentation>Date: 01-Aug-2011 (RSS Part : 01-Nov-2008)</xs:documentation>
+    <xs:documentation>Feedback to: http://gepsens.com </xs:documentation>
   </xs:annotation>
   <xs:element name="rss">
     <xs:complexType>
@@ -84,6 +86,18 @@
 		<xs:element ref="itunes:keywords" minOccurs="0" />
 		<xs:element ref="itunes:subtitle" minOccurs="0" />
 		<xs:element ref="itunes:summary" minOccurs="0" />
+		<xs:element ref="jwplayer:author" minOccurs="0" />
+		<xs:element ref="jwplayer:date" minOccurs="0" />
+		<xs:element ref="jwplayer:description" minOccurs="0" />
+		<xs:element ref="jwplayer:duration" minOccurs="0" />
+		<xs:element ref="jwplayer:file" minOccurs="0" />
+		<xs:element ref="jwplayer:link" minOccurs="0" />
+		<xs:element ref="jwplayer:image" minOccurs="0" />
+		<xs:element ref="jwplayer:provider" minOccurs="0" />
+		<xs:element ref="jwplayer:start" minOccurs="0" />
+		<xs:element ref="jwplayer:streamer" minOccurs="0" />
+		<xs:element ref="jwplayer:tags" minOccurs="0" />
+		<xs:element ref="jwplayer:title" minOccurs="0" />
       </xs:choice>
     </xs:sequence>
     <xs:anyAttribute namespace="##any"/>

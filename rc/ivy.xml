@@ -1,25 +1,136 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ivy-module version="2.0" 
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
-    <info organisation="red5" module="rc" />
-	<configurations>
-    	<conf name="default"/>
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+	<info organisation="red5" module="server" />
+	<configurations defaultconfmapping="default">
+		<conf name="default" />
+		<conf name="java6" extends="default" description="Java 6 dependencies" />
+		<conf name="eclipse" description="Special dependencies in Eclipse" />
+		<conf name="utest" extends="eclipse" description="Unit testing dependencies" />
 	</configurations>
-    <dependencies>
-        <!-- General --> 
-        <!-- J2EE --> 
-        <dependency org="javax" name="jsp-api" rev="2.1" conf="default"/>
-        <dependency org="javax" name="servlet-api" rev="2.5" conf="default"/>
-        <dependency org="tomcat" name="tomcat-dbcp" rev="6.0.18" conf="default"/> 
-        <dependency name="simple-jndi" rev="0.11.4.1" conf="default"/> 
-        <!-- Spring --> 
-        <!-- Logging --> 
-        <dependency name="slf4j-api" rev="1.5.6" conf="default"/>
-        <dependency name="jcl-over-slf4j" rev="1.5.6" conf="default"/>
-        <dependency name="log4j-over-slf4j" rev="1.5.6" conf="default"/>
-        <dependency name="jul-to-slf4j" rev="1.5.6" conf="default"/>
-        <dependency name="logback-core" rev="0.9.14" conf="default"/>
-        <dependency name="logback-classic" rev="0.9.14" conf="default"/>
-    </dependencies>
+	<dependencies>
+		<!-- Spring -->
+		<dependency org="aopalliance" name="aopalliance" rev="1.0"/>
+		<dependency org="org.springframework" name="spring-aop" rev="3.1.1.RELEASE"/>
+		<dependency org="org.springframework" name="spring-asm" rev="3.1.1.RELEASE" />
+		<dependency org="org.springframework" name="spring-beans" rev="3.1.1.RELEASE" />
+		<dependency org="org.springframework" name="spring-context" rev="3.1.1.RELEASE" />
+		<dependency org="org.springframework" name="spring-context-support" rev="3.1.1.RELEASE"/>
+		<dependency org="org.springframework" name="spring-core" rev="3.1.1.RELEASE" />
+		<dependency org="org.springframework" name="spring-expression" rev="3.1.1.RELEASE" />
+		<dependency org="org.springframework" name="spring-web" rev="3.1.1.RELEASE" />
+		<dependency org="org.springframework" name="spring-webmvc" rev="3.1.1.RELEASE"/>
+		<dependency org="org.springframework" name="spring-test" rev="3.1.1.RELEASE" conf="eclipse->*" transitive="false" /> 
+		<dependency org="org.springframework" name="spring-tx" rev="3.1.1.RELEASE"/>
+		<dependency org="org.springframework" name="spring-jms" rev="3.1.1.RELEASE"/>
+		<dependency org="org.springframework" name="spring-orm" rev="3.1.1.RELEASE"/>
+		<dependency org="org.springframework" name="spring-oxm" rev="3.1.1.RELEASE"/>
+		<dependency org="org.springframework" name="spring-jdbc" rev="3.1.1.RELEASE"/>
+		<dependency org="org.springframework" name="spring-instrument" rev="3.1.1.RELEASE"/>
+		<dependency org="org.springframework" name="spring-instrument-tomcat" rev="3.1.1.RELEASE"/>
+		<!-- Spring Security -->
+		<dependency org="org.springframework.security" name="spring-security-core-tiger" rev="2.0.6.RELEASE"/>
+		<dependency org="org.springframework.security" name="spring-security-core" rev="3.1.0.RELEASE"/>
+		<dependency org="org.springframework.security" name="spring-security-config" rev="3.1.0.RELEASE"/>
+		<dependency org="org.springframework.security" name="spring-security-acl" rev="3.1.0.RELEASE"/>
+		<dependency org="org.springframework.security" name="spring-security-aspects" rev="3.1.0.RELEASE"/>
+		<dependency org="org.springframework.security" name="spring-security-taglibs" rev="3.1.0.RELEASE"/>
+		<dependency org="org.springframework.security" name="spring-security-web" rev="3.1.0.RELEASE"/>
+		
+		<!-- Hibernate -->
+		<dependency org="javassist" name="javassist" rev="3.12.0.GA"/>
+		<dependency org="cglib" name="cglib" rev="2.2.2"/>
+		<dependency org="org.hibernate.javax.persistence" name="hibernate-jpa-2.0-api" rev="1.0.1.Final"/>
+		<dependency org="c3p0" name="c3p0" rev="0.9.1"/>
+		<dependency org="javax.transaction" name="jta" rev="1.1"/>
+		<dependency org="org.hibernate" name="hibernate-search-orm" rev="4.0.0.Final"/>
+		<dependency org="org.hibernate" name="hibernate-search-engine" rev="4.0.0.Final"/>
+		<dependency org="org.hibernate" name="hibernate-validator" rev="4.2.0.Final"/>
+		<dependency org="org.hibernate" name="hibernate-validator-annotation-processor" rev="4.2.0.Final"/>
+		<dependency org="org.hibernate" name="hibernate-c3p0" rev="4.0.1.Final"/>
+		<dependency org="org.hibernate" name="hibernate-commons-annotations" rev="3.3.0.ga"/>
+		<!-- <dependency org="org.hibernate" name="hibernate-commons-annotations" rev="4.0.1.Final"/> -->
+		<dependency org="org.hibernate" name="hibernate-core" rev="4.0.1.Final"/>
+		<dependency org="org.hibernate" name="hibernate-ehcache" rev="4.0.1.Final"/>
+		<dependency org="org.hibernate" name="hibernate-entitymanager" rev="4.0.1.Final"/>
+		
+		<!-- Lucene -->
+		<dependency org="org.apache.lucene" name="lucene-analyzers" rev="3.4.0"/>
+		<dependency org="org.apache.lucene" name="lucene-core" rev="3.4.0"/>
+		
+		<!-- Jackson -->
+		<dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.8.3"/>
+		<dependency org="org.codehaus.jackson" name="jackson-core-asl" rev="1.8.3"/>
+		<dependency org="org.codehaus.jackson" name="jackson-jaxrs" rev="1.8.3"/>
+		<dependency org="org.codehaus.jettison" name="jettison" rev="1.1"/>
+		<!-- Jaxb -->
+		<dependency org="com.sun.xml.bind" name="jaxb1-impl" rev="2.2.4"/>
+		<dependency org="javax.xml.bind" name="jaxb-api" rev="2.2.3"/>
+		<dependency org="javax.xml" name="jaxb-impl" rev="2.1"/>
+		<dependency org="com.sun.xml.bind" name="jaxb-xjc" rev="2.2.4"/>
+		<!-- Jersey -->
+		<dependency org="com.sun.jersey" name="jersey-client" rev="1.9.1"/>
+		<dependency org="com.sun.jersey" name="jersey-core" rev="1.9.1"/>
+		<dependency org="com.sun.jersey" name="jersey-json" rev="1.9.1"/>
+		<dependency org="com.sun.jersey" name="jersey-server" rev="1.9.1"/>
+		<dependency org="com.sun.jersey.contribs" name="jersey-spring" rev="1.10"/>
+		
+		<!-- JSRs -->
+		<dependency org="javax.validation" name="validation-api" rev="1.0.0.GA"/>
+		<dependency org="javax.ws.rs" name="jsr311-api" rev="1.1.1"/>
+		<!-- AspectJ -->
+		<dependency org="org.aspectj" name="aspectjrt" rev="1.6.12"/>
+		<!-- <dependency org="org.aspectj" name="aspectjweaver" rev="1.6.12"/> -->
+		<!-- Logging -->
+		<dependency org="org.slf4j" name="slf4j-api" rev="1.6.1" transitive="false" />
+		<dependency org="org.slf4j" name="jul-to-slf4j" rev="1.6.1" transitive="false" />
+		<dependency org="org.slf4j" name="log4j-over-slf4j" rev="1.6.1"/>
+		<dependency org="org.slf4j" name="jcl-over-slf4j" rev="1.6.1"/>
+		<dependency org="ch.qos.logback" name="logback-classic" rev="0.9.28"/>
+		<dependency org="ch.qos.logback" name="logback-core" rev="0.9.28"/>
+		<dependency org="commons-logging" name="commons-logging" rev="1.1.1"/>
+		<!-- General -->
+		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.8.2"/>
+		<dependency org="commons-codec" name="commons-codec" rev="1.4" transitive="false" />
+		<!-- <dependency org="commons-collections" name="commons-collections" rev="3.2.1" transitive="false" /> -->
+		<dependency org="commons-dbcp" name="commons-dbcp" rev="1.2.2"/>
+		<dependency org="commons-fileupload" name="commons-fileupload" rev="1.2.2"/>
+		<dependency org="commons-io" name="commons-io" rev="2.0.1"/>
+		<dependency org="org.apache.httpcomponents" name="httpcore" rev="4.1.3"/>
+		<dependency org="org.apache.httpcomponents" name="httpclient" rev="4.1.2"/>
+		<dependency org="org.apache.commons" name="commons-lang3" rev="3.1"/>
+		<dependency org="commons-lang" name="commons-lang" rev="2.4"/>
+		<dependency org="commons-modeler" name="commons-modeler" rev="2.0.1" transitive="false" />
+		<dependency org="commons-pool" name="commons-pool" rev="1.5.6"/>
+		<dependency org="org.quartz-scheduler" name="quartz" rev="1.8.5"/>
+		<dependency org="net.sf.ehcache" name="ehcache-core" rev="2.4.3"/>
+		<dependency org="rome" name="rome" rev="1.0"/>
+		
+		<!-- XML -->
+		<dependency org="dom4j" name="dom4j" rev="1.6.1"/>
+		<dependency org="xerces" name="xercesImpl" rev="2.9.1"/>
+		<dependency org="xmlrpc" name="xmlrpc" rev="2.0.1"/>
+		<!-- Mina -->
+		<dependency org="org.apache.mina" name="mina-integration-beans" rev="2.0.4" />
+		<dependency org="org.apache.mina" name="mina-integration-jmx" rev="2.0.4" />
+		<dependency org="org.apache.mina" name="mina-core" rev="2.0.4" />
+		<!-- Scripting -->
+		<dependency org="asm" name="asm" rev="3.2" transitive="false" />
+		<dependency org="asm" name="asm-commons" rev="3.2" transitive="false" />
+		<dependency org="org.antlr" name="antlr-runtime" rev="3.1.3" transitive="false" />
+		<dependency org="org.codehaus.groovy" name="groovy-all" rev="1.7.0" transitive="false"/>
+		<dependency org="org.jruby" name="jruby-complete" rev="1.1.6"/>
+		<dependency org="org.python" name="jython" rev="2.5.0"/>
+		<dependency org="org.mozilla" name="rhino" rev="1.7R3" transitive="false" />
+		<dependency org="javax.xml.stream" name="stax-api" rev="1.0-2" transitive="false" />
+		<dependency org="org.springframework" name="spring-context-support" rev="3.1.1.RELEASE" />
+		<!-- Crypto -->
+		<dependency org="org.bouncycastle" name="bcprov-jdk16" rev="1.45" conf="java6->*" />
+		<!-- MP3 -->
+		<dependency name="jaudiotagger" rev="2.0.4-SNAPSHOT" />
+		<!-- <dependency org="org" name="jaudiotagger" rev="2.0.3"/> -->
+		<dependency org="javax" name="javaee-api" rev="5.1.2" />
+		<!-- Testing support -->
+		<!-- until Eclipse updates their junit version, we have to use this -->
+		<dependency org="junit" name="junit" rev="4.10" conf="eclipse->*" transitive="false" />
+		<dependency name="GroboUtils" rev="5-core" conf="eclipse->*" />
+	</dependencies>
 </ivy-module>

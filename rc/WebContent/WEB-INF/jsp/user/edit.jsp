@@ -22,10 +22,10 @@
             <div class="message"><spring:message code="${errormess}" /></div>
             </c:if>
             <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
-            	<c:url value='/rc/admin/user/update' var="actionUrl" />
+            	<c:url value='/api/admin/user/update' var="actionUrl" />
             </sec:authorize>
             <sec:authorize access="!hasRole('ROLE_SUPERVISOR')">
-            	<c:url value='/rc/user/update' var="actionUrl" />
+            	<c:url value='/api/user/update' var="actionUrl" />
             </sec:authorize>
             <spring-form:form action="${actionUrl}" modelAttribute="user">
                 <div class="dialog">
@@ -97,13 +97,13 @@
                 	<spring-form:hidden path="id"/>
                 	<sec:authorize access="hasRole('ROLE_SUPERVISOR')">
                 		<span class="button">
-                			<c:url value="/rc/admin/user/pwdchange" var="pwdUrl"/>
+                			<c:url value="/api/admin/user/pwdchange" var="pwdUrl"/>
                				<a class="edit" href="${pwdUrl}/${user.id}"><spring:message code="button.changepwd.label" /></a>
                			</span>
                 	</sec:authorize>
                 	<sec:authorize access="!hasRole('ROLE_SUPERVISOR')">
                 		<span class="button">
-                			<c:url value="/rc/user/pwdchange" var="pwdUrl"/>
+                			<c:url value="/api/user/pwdchange" var="pwdUrl"/>
                				<a class="edit" href="${pwdUrl}"><spring:message code="button.changepwd.label" /></a>
                			</span>
                 	</sec:authorize>

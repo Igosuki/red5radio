@@ -7,7 +7,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head>
-		<title>Radio Courtoisie - Administration Red 5</title>
+		<title>Admin panel of  your radio server</title>
 	</head>
 	<body>
 	 <div class="body">
@@ -30,7 +30,7 @@
 									<div class="entry">
 										<form:form method="POST" commandName="fileUploadForm" enctype="multipart/form-data">
 											<form:errors path="*" cssClass="errorblock" element="div"/>
-											<p>Sélectionnez un fichier à envoyer</p>
+											<p>Sï¿½lectionnez un fichier ï¿½ envoyer</p>
 											<input type="file" name="file" size="50" />
 											<input type="submit" value="Valider" />
 											<form:input path="mi.title" title="Titre" />

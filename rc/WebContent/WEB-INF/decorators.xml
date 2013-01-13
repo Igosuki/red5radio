@@ -1,19 +1,22 @@
 <!-- Sitemesh decorators -->
 <decorators defaultdir="/WEB-INF/layouts">
 	<excludes>
-		<pattern>/rc/ckfinder/ckfinder.html</pattern>
-		<pattern>/rc/login</pattern>
-		<pattern>/rc/admin/intervenant/addEm/*</pattern>
-		<pattern>/rc/admin/intervenant/delEm/*</pattern>
-		<pattern>/rc/admin/emission/addIm/*</pattern>
-		<pattern>/rc/admin/emission/delIm/*</pattern>
-		<pattern>/rc/admin/emission/addSp/*</pattern>
-		<pattern>/rc/admin/emission/delSp/*</pattern>
+		<pattern>/api/ckfinder/ckfinder.html</pattern>
+		<pattern>/api/login</pattern>
+		<pattern>/api/admin/intervenant/addEm/*</pattern>
+		<pattern>/api/admin/intervenant/delEm/*</pattern>
+		<pattern>/api/admin/emission/addIm/*</pattern>
+		<pattern>/api/admin/emission/delIm/*</pattern>
+		<pattern>/api/admin/emission/addSp/*</pattern>
+		<pattern>/api/admin/emission/delSp/*</pattern>
+		<pattern>/api/admin/emission/getItems/*</pattern>
+		<pattern>/api/admin/media/items/*</pattern>
+		<pattern>/api/admin/media/searchitems*</pattern>
 	</excludes>
 	<decorator name="main" page="main.jsp">
-		<pattern>/rc/admin/*</pattern>
-		<pattern>/rc/main/*</pattern>
-		<pattern>/rc/user/*</pattern> 
+		<pattern>/api/admin/*</pattern>
+		<pattern>/api/main/*</pattern>
+		<pattern>/api/user/*</pattern>
 	</decorator>
 	
 </decorators>

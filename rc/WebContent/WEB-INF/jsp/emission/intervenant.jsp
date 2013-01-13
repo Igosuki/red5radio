@@ -26,7 +26,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$(function() {
-		var loadUrl = "<c:url value='/rc/admin/emission/delIm/' />";
+		var loadUrl = "<c:url value='/api/admin/emission/delIm/' />";
 		loadUrlInTable(loadUrl, "#intervenantTable", "#loadIm");
 	});
 });

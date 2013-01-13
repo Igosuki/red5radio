@@ -11,7 +11,7 @@
 <body>
 <div style="margin-left:10px;">
 <table style="width:760px;"><tr>
-    <td>Bienvenue sur l'application d'administration du serveur de Radio Courtoisie.</td></tr></table>
+    <td>Welcome on the admin panel of your radio server</td></tr></table>
 </div>
 </body>
 </html>

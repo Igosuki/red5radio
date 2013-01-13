@@ -16,11 +16,11 @@
     </head>
     <body>
         <div class="body">
-            <h1><spring:message code="default.edit.label" arguments="un patron d'émission" /></h1>
+            <h1><spring:message code="default.edit.label" arguments="un patron d'ï¿½mission" /></h1>
             <c:if test="${errormess != null}">
             <div class="message"><spring:message code="${errormess}" /></div>
             </c:if>
-            <c:url value='/rc/admin/intervenant/update' var="actionUrl" />
+            <c:url value='/api/admin/intervenant/update' var="actionUrl" />
             <spring-form:form action="${actionUrl}" modelAttribute="intervenant">
                 <div class="dialog">
                     <table>
@@ -89,7 +89,7 @@
         		$( "#emissionAutoComplete" ).autocomplete({
         			source: function( request, response ) {
         				$.ajax({
-        					url: "<c:url value='/rc/admin/emission/ajax.json' />",
+        					url: "<c:url value='/api/admin/emission/ajax.json' />",
         					dataType: "jsonp",
         					data: {
         						featureClass: "P",
@@ -114,7 +114,7 @@
         				log( ui.item ?
         					"<spring:message code='default.selected.message' /> : " + ui.item.label :
         					"<spring:message code='default.noneselected.message' />" + this.value);
-        				$('#loadEm').load("<c:url value='/rc/admin/intervenant/addEm/' />" + ui.item.item.id, null, function(){
+        				$('#loadEm').load("<c:url value='/api/admin/intervenant/addEm/' />" + ui.item.item.id, null, function(){
         					$("#emissionAutoComplete").val('');
         				});
         			},

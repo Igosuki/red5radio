@@ -2,7 +2,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="/spring" %>
 <%@ taglib prefix="spring-form" uri="/spring-form" %>
-<%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions' %>
+<%@ taglib prefix='fn' uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix='strings' uri="http://com.radioc/jstl/strings" %>
 <html>
     <head>
         <title><spring:message code="emission.edit.title" /></title>
@@ -70,11 +71,11 @@
     </head>
     <body>
         <div class="body">
-            <h1><spring:message code="default.edit.label" arguments="une émission" /></h1>
+            <h1><spring:message code="default.edit.label" arguments="une ï¿½mission" /></h1>
             <c:if test="${errormess != null}">
             <div class="message"><spring:message code="${errormess}" /></div>
             </c:if>
-            <c:url value='/rc/admin/emission/update' var="actionUrl" />
+            <c:url value='/api/admin/emission/update' var="actionUrl" />
             <spring-form:form action="${actionUrl}" modelAttribute="emission">
                 <div class="dialog">
                     <table>
@@ -281,7 +282,7 @@
         		$( "#intervenantAutoComplete" ).autocomplete({
         			source: function( request, response ) {
         				$.ajax({
-        					url: "<c:url value='/rc/admin/intervenant/ajax.json' />",
+        					url: "<c:url value='/api/admin/intervenant/ajax.json' />",
         					dataType: "jsonp",
         					data: {
         						featureClass: "P",
@@ -306,7 +307,7 @@
         				log("#log", ui.item ?
         					"<spring:message code='default.selected.message' /> : " + ui.item.label :
         					"<spring:message code='default.noneselected.message' />" + ui.item.label);
-        				$('#loadIm').load("<c:url value='/rc/admin/emission/addIm/' />" + ui.item.item.id, null, function(){
+        				$('#loadIm').load("<c:url value='/api/admin/emission/addIm/' />" + ui.item.item.id, null, function(){
         					$("#intervenantAutoComplete").val('');
         				});
         			},
@@ -320,7 +321,7 @@
         		$( "#suppleantAutoComplete" ).autocomplete({
         			source: function( request, response ) {
         				$.ajax({
-        					url: "<c:url value='/rc/admin/intervenant/ajax.json' />",
+        					url: "<c:url value='/api/admin/intervenant/ajax.json' />",
         					dataType: "jsonp",
         					data: {
         						featureClass: "P",
@@ -345,7 +346,7 @@
         				log("#logSp", ui.item ?
         					"<spring:message code='default.selected.message' /> : " + ui.item.label :
         					"<spring:message code='default.noneselected.message' />" + ui.item.label);
-        				$('#loadSp').load("<c:url value='/rc/admin/emission/addSp/' />" + ui.item.item.id, null, function(){
+        				$('#loadSp').load("<c:url value='/api/admin/emission/addSp/' />" + ui.item.item.id, null, function(){
         					$("#suppleantAutoComplete").val('');
         				});
         			},
@@ -364,7 +365,7 @@
 					plugins: {
 						rtmp: {
 							url: "<c:url value='/flash/flowplayer.rtmp-3.2.3.swf' />",
-						   	netConnectionUrl: 'rtmp://localhost/rc/',
+						   	netConnectionUrl: 'rtmp://localhost/api/',
 							
 						   	// make the rtmp plugin query the stream length from the server
 						   	durationFunc: 'getStreamLength'
@@ -385,7 +386,7 @@
 							<c:forEach items="${emission.episodes}" var="ep" varStatus="epStatus">
 							{
 								url: '${ep.type.term}:${ep.path}',
-								title: '${ep.title}'
+								title: '${strings:escapeJavaScript(ep.title)}'
 							},
 							</c:forEach>	
 						]

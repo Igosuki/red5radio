@@ -34,15 +34,15 @@ th.sorted a,th.sortable a {
 }
 
 th.sortable a {
-	background : url(../img/arrow_off.png) center right no-repeat;
+	background: url(../img/arrow_off.png) center right no-repeat;
 }
 
 th.order1 a {
-	background : url(../img/arrow_down.png) center right no-repeat;
+	background: url(../img/arrow_down.png) center right no-repeat;
 }
 
 th.order2 a {
-	background : url(../img/arrow_up.png) center right rano-repeat;
+	background: url(../img/arrow_up.png) center right rano-repeat;
 }
 
 /* tr.odd {
@@ -52,7 +52,6 @@ th.order2 a {
 tr.tableRowEven,tr.even {
 	background-color: #fea
 } */
-
 div.exportlinks {
 	background-color: #eee;
 	border: 1px dotted #999;
@@ -69,11 +68,11 @@ span.export {
 }
 
 span.excel {
-	background : url(../img/ico_file_excel.png) center left no-repeat;
+	background: url(../img/ico_file_excel.png) center left no-repeat;
 }
 
 span.csv {
-	background : url(../img/ico_file_csv.png) center left no-repeat;
+	background: url(../img/ico_file_csv.png) center left no-repeat;
 }
 
 span.xml {
@@ -89,54 +88,90 @@ span.rtf {
 }
 
 span.pagebanner {
-	background-color: #eee;
-	border: 1px dotted #999;
-	padding: 2px 4px 2px 4px;
-	width: 79%;
-	margin-top: 10px;
+	border-top: 0;
+	margin: 0;
+	padding: 0.3em 0.2em;
+	text-align: center;
+	-moz-box-shadow: 0 0 3px 1px #AAAAAA;
+	-webkit-box-shadow: 0 0 3px 1px #AAAAAA;
+	box-shadow: 0 0 3px 1px #AAAAAA;
+	background-color: #EFEFEF;
 	display: block;
-	border-bottom: none;
 }
 
 span.pagelinks {
-	background-color: #eee;
-	border: 1px dotted #999;
-	padding: 2px 4px 2px 4px;
-	width: 79%;
+	border-top: 0;
+	margin: 0;
+	padding: 0.3em 0.2em;
+	text-align: center;
+	-moz-box-shadow: 0 0 3px 1px #AAAAAA;
+	-webkit-box-shadow: 0 0 3px 1px #AAAAAA;
+	box-shadow: 0 0 3px 1px #AAAAAA;
+	background-color: #EFEFEF;
 	display: block;
-	border-top: none;
-	margin-bottom: -5px;
 }
 
+.pageLinks a,
+.pageLinks .currentPageStep {
+	color: #666666;
+	display: inline-block;
+	margin: 0 0.1em;
+	padding: 0.25em 0.7em;
+	text-decoration: none;
+	   -moz-border-radius: 0.3em;
+	-webkit-border-radius: 0.3em;
+	        border-radius: 0.3em;
+}
+
+.pageLinks a:hover, .pageLinks a:focus,
+.pageLinks .currentPageStep {
+	background-color: #999999;
+	color: #ffffff;
+	outline: none;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+.no-borderradius .pageLinks a:hover, .no-borderradius .pageLinks a:focus,
+.no-borderradius .pageLinks .currentPageStep {
+	background-color: transparent;
+	color: #444444;
+	text-decoration: underline;
+}
 
 .group-1 {
-    font-weight:bold;
-    padding-bottom:10px;
-    border-top:1px solid black;
+	font-weight: bold;
+	padding-bottom: 10px;
+	border-top: 1px solid black;
 }
-.group-2 {
-    font-style:italic;
-    border-top: 1px solid black;
 
+.group-2 {
+	font-style: italic;
+	border-top: 1px solid black;
 }
-.subtotal-sum, .grandtotal-sum {
-    font-weight:bold;
-    text-align:right;
+
+.subtotal-sum,.grandtotal-sum {
+	font-weight: bold;
+	text-align: right;
 }
+
 .subtotal-header {
-    padding-bottom: 0px;
-    border-top: 1px solid white;
+	padding-bottom: 0px;
+	border-top: 1px solid white;
 }
-.subtotal-label, .grandtotal-label {
-    border-top: 1px solid white;
-    font-weight: bold;
+
+.subtotal-label,.grandtotal-label {
+	border-top: 1px solid white;
+	font-weight: bold;
 }
+
 .grouped-table tr.even {
-    background-color: #fff;
+	background-color: #fff;
 }
+
 .grouped-table tr.odd {
-    background-color: #fff;
+	background-color: #fff;
 }
+
 .grandtotal-row {
-    border-top: 2px solid black;
+	border-top: 2px solid black;
 }

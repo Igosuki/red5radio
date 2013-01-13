@@ -2,6 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="/spring" %>
 <%@ taglib prefix="spring-form" uri="/spring-form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
     <head>
         <title><spring:message code="mediaitem.create.title" /></title>
@@ -17,17 +18,31 @@
             <c:if test="${errormess != null}">
             <div class="message"><spring:message code="${errormess}" /></div>
             </c:if>
-            <c:url value='/rc/admin/media/save' var="actionUrl" />
+            <c:url value='/api/admin/media/save' var="actionUrl" />
             <spring-form:form action="${actionUrl}" modelAttribute="mediaItem">
                 <div class="dialog">
                     <table>
                         <tbody>
+                       		<tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="code"><spring:message code="mediaitem.emission.label" /></label>
+                                </td>
+                                <td valign="top" class="value">
+                                	<spring-form:hidden id="loadEm" path="emission.id" />
+                                    <input id="emissionAutoComplete" maxlength="150" class="longfield"
+                                    		value="<c:if test="${mediaItem.emission != null && mediaItem.emission.name != null}">
+														${mediaItem.emission.title} (${mediaItem.emission.name})
+												   </c:if>" />
+                                    <spring-form:errors element="div" cssClass="errors" path="emission.name" />
+                                    <p id="log"></p>
+                                </td>
+                            </tr>
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="code"><spring:message code="mediaitem.title.label" /></label>
                                 </td>
                                 <td valign="top" class="value" >
-                                    <spring-form:input path="title" maxlength="150" />
+                                    <spring-form:input path="title" maxlength="150" cssClass="longfield" />
                                     <spring-form:errors element="div" cssClass="errors" path="title" />
                                 </td>
                             </tr>
@@ -36,7 +51,7 @@
                                     <label for="code"><spring:message code="mediaitem.subtitle.label" /></label>
                                 </td>
                                 <td valign="top" class="value">
-                                	<spring-form:input path="subtitle" maxlength="150" />
+                                	<spring-form:input path="subtitle" maxlength="150" cssClass="longfield" />
                                     <spring-form:errors element="div" cssClass="errors" path="subtitle" />
                                 </td>
                             </tr>
@@ -45,7 +60,7 @@
                                     <label for="code"><spring:message code="mediaitem.path.label" /></label>
                                 </td>
                                 <td valign="top" class="value">
-                                	<spring-form:input path="path" maxlength="150" />
+                                	<spring-form:input path="path" maxlength="150" cssClass="longfield" />
                                     <spring-form:errors element="div" cssClass="errors" path="path" />
                                 </td>
                             </tr>
@@ -54,7 +69,7 @@
                                     <label for="code"><spring:message code="mediaitem.imgpath.label" /></label>
                                 </td>
                                 <td valign="top" class="value">
-                                	<spring-form:input path="imgPath" maxlength="150" />
+                                	<spring-form:input path="imgPath" maxlength="150" cssClass="longfield" />
                                     <spring-form:errors element="div" cssClass="errors" path="imgPath" />
                                 </td>
                             </tr>
@@ -64,21 +79,10 @@
                                 </td>
                                 <td valign="top" class="value">
                                     <spring-form:select  path="type">
-                                    	<spring-form:option value="" label="Sélectionnez" />
+                                    	<spring-form:option value="" label="Sï¿½lectionnez" />
                                     	<spring-form:options items="${mediasEnum}"/>
                                     </spring-form:select>
                                     <spring-form:errors element="div" cssClass="errors" path="type" />
-                                </td>
-                            </tr>
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="code"><spring:message code="mediaitem.emission.label" /></label>
-                                </td>
-                                <td valign="top" class="value">
-                                	<spring-form:hidden id="loadEm" path="emission.id" />
-                                    <input id="emissionAutoComplete" maxlength="150" value="${mediaItem.emission.name} - ${mediaItem.emission.title}" />
-                                    <spring-form:errors element="div" cssClass="errors" path="emission.name" />
-                                    <p id="log"></p>
                                 </td>
                             </tr>
                             <tr class="prop">
@@ -100,11 +104,19 @@
                                 </td>
                             </tr>
                             <tr class="prop">
+                               <td valign="top" class="name">
+                                   <label for="code"><spring:message code="mediaitem.author.pick" /></label>
+                               </td>
+                               <td valign="top" class="value">
+                               	<input class="longfield" id="intervenantAutoComplete" maxlength="150" />
+                               </td>
+                            </tr>
+                            <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="code"><spring:message code="mediaitem.author.label" /></label>
                                 </td>
                                 <td valign="top" class="value">
-                                	<spring-form:input  path="author" maxlength="128" />
+                                	<spring-form:input  path="author" maxlength="128" cssClass="longfield" />
                                     <spring-form:errors element="div" cssClass="errors" path="author" />
                                 </td>
                             </tr>
@@ -169,6 +181,13 @@
                 </div>
                 <div class="buttons">
                 	<spring-form:hidden path="id"/>
+                	<sec:authorize access="isAuthenticated()">
+					<sec:authentication property='principal.username' var="usernamevar" />
+						<input type="hidden" id="lastmodifier" name="lastmodifier" value="${usernamevar}" />
+					</sec:authorize>
+					<sec:authorize access="!isAuthenticated()">
+						<input type="hidden" id="lastmodifier" name="lastmodifier" value="anonymous" />
+					</sec:authorize>
                     <span class="button"><input type="submit" name="save" class="save" value='<spring:message code="default.button.create.label" />' /></span>
                 </div>
             </spring-form:form>
@@ -186,7 +205,7 @@
     		$( "#emissionAutoComplete" ).autocomplete({
     			source: function( request, response ) {
     				$.ajax({
-    					url: "<c:url value='/rc/admin/emission/ajax.json' />",
+    					url: "<c:url value='/api/admin/emission/ajax.json' />",
     					dataType: "jsonp",
     					data: {
     						featureClass: "P",
@@ -197,10 +216,10 @@
     					success: function( data ) {
     						response( $.map( data, function( item ) {
     							return {
-    								label: item.name+' ('+item.title+') ',
-    								value: item.name,
+    								label: item.title+' ('+item.name+') ',
+    								value: item.title,
     								item: item
-    							}
+    							};
     						}));
     					}
     				});
@@ -212,8 +231,41 @@
     					"<spring:message code='default.selected.message' /> : " + ui.item.label :
     					"<spring:message code='default.noneselected.message' />" + this.value);
     				$('#loadEm').val(ui.item.item.id);
-    				/* $('#loadEm').load("<c:url value='/rc/admin/intervenant/addEm/' />" + ui.item.item.id, null, function(){
+    				/* $('#loadEm').load("<c:url value='/api/admin/intervenant/addEm/' />" + ui.item.item.id, null, function(){
     				}); */
+    			},
+    			open: function() {
+    				$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+    			},
+    			close: function() {
+    				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+    			}
+    		});
+    		$( "#intervenantAutoComplete" ).autocomplete({
+    			source: function( request, response ) {
+    				$.ajax({
+    					url: "<c:url value='/api/admin/intervenant/ajax.json' />",
+    					dataType: "jsonp",
+    					data: {
+    						featureClass: "P",
+    						style: "full",
+    						maxRows: 12,
+    						name_startsWith: request.term
+    					},
+    					success: function( data ) {
+    						response( $.map( data, function( item ) {
+    							return {
+    								label: item.name,
+    								value: "",
+    								item: item
+    							}
+    						}));
+    					}
+    				});
+    			},
+    			minLength: 2,
+    			select: function( event, ui ) {
+    				$('#miAuthor').val(ui.item.item.name);
     			},
     			open: function() {
     				$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );

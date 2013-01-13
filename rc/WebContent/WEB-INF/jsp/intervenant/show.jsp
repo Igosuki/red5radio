@@ -8,7 +8,7 @@
     </head>
     <body>
         <div class="body">
-            <h1><spring:message code="default.show.label" arguments="une émission" /></h1>
+            <h1><spring:message code="default.show.label" arguments="une ï¿½mission" /></h1>
             <c:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </c:if>
@@ -34,7 +34,7 @@
                 </table>
             </div>
             <div class="buttons">
-            	<c:url value="/rc/admin/intervenant/index" var="actionUrl"/>
+            	<c:url value="/api/admin/intervenant/index" var="actionUrl"/>
                 <spring-form:form action="${actionUrl}" method="post" modelAttribute="intervenant">
                 	<spring-form:hidden path="id"/>
                     <span class="button"><input type="submit" name="edit" class="edit" value='<spring:message code="default.button.edit.label" />' /></span>

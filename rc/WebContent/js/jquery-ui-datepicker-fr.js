@@ -18,6 +18,17 @@ jQuery(function($){
 		firstDay: 1,
 		isRTL: false,
 		showMonthAfterYear: false,
-		yearSuffix: ''};
+		yearSuffix: '',
+		//Additionnals definitions for the time picker
+		timeOnlyTitle: "Choisir l'horaire",
+		timeText: "Horaire",
+		hourText: "Heure",
+		minuteText: "Minute",
+		secondText: "Seconde",
+		millisecText: "Milliseconde",
+		currentText: "Maintenant",
+		closeText: "Finir",
+		ampm: false
+		};
 	$.datepicker.setDefaults($.datepicker.regional['fr']);
 });

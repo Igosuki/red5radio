@@ -49,7 +49,7 @@ background-color: rgb(250, 250, 250);
       <c:if test="${errormess != null}">
       	<div class="message"><spring:message code="${errormess}" /></div>
       </c:if>
-      <c:url value='/rc/register/submit' var="actionUrl" />
+      <c:url value='/api/register/submit' var="actionUrl" />
       <spring-form:form action="${actionUrl}" modelAttribute="user">
      	 <div class="dialog">
 	        <table style="width: 400px;"  border="0" cellpadding="0" cellspacing="5">

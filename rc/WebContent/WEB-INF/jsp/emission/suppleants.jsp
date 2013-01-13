@@ -26,7 +26,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$(function() {
-		var loadUrl = "<c:url value='/rc/admin/emission/delSp/' />";
+		var loadUrl = "<c:url value='/api/admin/emission/delSp/' />";
 		loadUrlInTable(loadUrl, "#suppleantTable", "#loadSp");
 	});
 });

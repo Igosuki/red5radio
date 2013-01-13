@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Panneau d'administration des médias radio courtoisie</title>
+<title>Panneau d'administration</title>
 </head>
 <body>
 <table><tr><td>Umad Brah ?</td></tr></table>

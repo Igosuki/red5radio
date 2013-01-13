@@ -73,7 +73,7 @@
             </div>
             <div class="buttons">
             	<sec:authorize access="hasRole('ROLE_SUPERVISOR')">
-            		<c:url value="/rc/admin/user/index" var="actionUrl"/>
+            		<c:url value="/api/admin/user/index" var="actionUrl"/>
 	                <spring-form:form action="${actionUrl}" method="post" modelAttribute="user">
 	                	<spring-form:hidden path="id"/>
 	                    <span class="button"><input type="submit" name="edit" class="edit" value='<spring:message code="default.button.edit.label" />' /></span>
@@ -82,7 +82,7 @@
                 </sec:authorize>
                	<sec:authorize access="!hasRole('ROLE_SUPERVISOR')">
               		<span class="button">
-               			<c:url value="/rc/user/edit" var="actionUrl"/>
+               			<c:url value="/api/user/edit" var="actionUrl"/>
               				<a class="edit" href="${actionUrl}"><spring:message code="default.button.edit.label" /></a>
               		</span>
                	</sec:authorize>

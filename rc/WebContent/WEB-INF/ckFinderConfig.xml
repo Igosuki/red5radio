@@ -1,9 +1,9 @@
 <config>
 	<enabled>true</enabled>
-	<baseDir>M:\red5\wpRed5\rc\WebContent\media</baseDir>
-	<baseURL>/rc/media/</baseURL>
-	<licenseKey>WP9EJDVXZE1J99DEH554QNY53</licenseKey>
-	<licenseName>example.org</licenseName>
+	<baseDir>M:\red5\media</baseDir>
+	<baseURL>/</baseURL>
+	<licenseKey>7P9EJDVXZE1J99DEH554QNY53ZERZERTYY</licenseKey>
+	<licenseName>radioc.com</licenseName>
 	<imgWidth>1600</imgWidth>
 	<imgHeight>1200</imgHeight>
 	<imgQuality>80</imgQuality>
@@ -24,30 +24,30 @@
 	<defaultResourceTypes></defaultResourceTypes>
 	<types>
 		<type name="Fichiers">
-			<url>%BASE_URL%files/</url>
-			<directory>%BASE_DIR%files</directory>
+			<url>%BASE_URL%/files/</url>
+			<directory>%BASE_DIR%/files</directory>
 			<maxSize>0</maxSize>
 			<allowedExtensions>7z,aiff,asf,avi,bmp,csv,doc,docx,fla,flv,gif,gz,gzip,jpeg,jpg,mid,mov,mp3,mp4,mpc,mpeg,mpg,ods,odt,pdf,png,ppt,pptx,pxd,qt,ram,rar,rm,rmi,rmvb,rtf,sdc,sitd,swf,sxc,sxw,tar,tgz,tif,tiff,txt,vsd,wav,wma,wmv,xls,xlsx,zip
 			</allowedExtensions>
 			<deniedExtensions></deniedExtensions>
 		</type>
 		<type name="Images">
-			<url>%BASE_URL%images/</url>
-			<directory>%BASE_DIR%images</directory>
+			<url>%BASE_URL%/images/</url>
+			<directory>%BASE_DIR%/images</directory>
 			<maxSize>0</maxSize>
 			<allowedExtensions>bmp,gif,jpeg,jpg,png</allowedExtensions>
 			<deniedExtensions></deniedExtensions>
 		</type>
 		<type name="Flash">
-			<url>%BASE_URL%flash/</url>
-			<directory>%BASE_DIR%flash</directory>
+			<url>%BASE_URL%/flash/</url>
+			<directory>%BASE_DIR%/flash</directory>
 			<maxSize>0</maxSize>
 			<allowedExtensions>swf,flv</allowedExtensions>
 			<deniedExtensions></deniedExtensions>
 		</type>
 		<type name="Mp3">
-			<url>%BASE_URL%mp3/</url>
-			<directory>%BASE_DIR%mp3</directory>
+			<url>%BASE_URL%/mp3/</url>
+			<directory>%BASE_DIR%/mp3</directory>
 			<maxSize>0</maxSize>
 			<allowedExtensions>mp3</allowedExtensions>
 			<deniedExtensions></deniedExtensions>
@@ -70,8 +70,8 @@
 	</accessControls>
 	<thumbs>
 		<enabled>true</enabled>
-		<url>%BASE_URL%_thumbs/</url>
-		<directory>%BASE_DIR%_thumbs</directory>
+		<url>%BASE_URL%/_thumbs/</url>
+		<directory>%BASE_DIR%/_thumbs</directory>
 		<directAccess>false</directAccess>
 		<maxHeight>100</maxHeight>
 		<maxWidth>100</maxWidth>
@@ -91,6 +91,13 @@
 			<name>fileeditor</name>
 			<class>com.ckfinder.connector.plugins.FileEditor</class>
 			<params></params>
+		</plugin>
+		<plugin>
+			<name>analyzer</name>
+			<class>com.gepsensradio.ckfinder.AnalyzerPlugin</class>
+			<params>
+				<param name="alwaysResolve" value="false"></param>
+			</params>
 		</plugin>
 	</plugins>
 	<basePathBuilderImpl>com.ckfinder.connector.configuration.ConfigurationPathBuilder</basePathBuilderImpl>
