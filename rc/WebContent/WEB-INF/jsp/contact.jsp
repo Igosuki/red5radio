@@ -23,18 +23,6 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td>Allen Le Yaouanc</td>
-			<td>allen@graph-id.net</td>
-			<td>allenleyaouanc</td>
-			<td>06 12 19 30 21</td>
-		</tr>
-		<tr>
-			<td>Guillaume Balaine</td>
-			<td>guillaume@graph-id.net</td>
-			<td>igosuki</td>
-			<td>06 08 85 85 85</td>
-		</tr>
 	</tbody>
 </table>
 </div>
